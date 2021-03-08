@@ -50,7 +50,7 @@ class RegisterFragment : Fragment() {
 
     private fun validateEmailPassword(): Boolean {
 
-        if (register_email.text.matches(emailPattern.toRegex()) && register_password.text.length > 4 && register_password.text.length < 20) {
+        if (Preferances.getKey(requireContext(), register_email.text.toString()) && register_email.text.matches(emailPattern.toRegex()) && register_password.text.length > 4 && register_password.text.length < 20) {
             return true
         } else if (register_email.text.isEmpty()) {
             Toast.makeText(
@@ -64,7 +64,7 @@ class RegisterFragment : Fragment() {
                 Toast.LENGTH_SHORT
             ).show()
             return false
-        } else if (register_password.text.length < 4) {
+        } else if (register_password.text.length <= 4) {
             Toast.makeText(
                 context, "Password must contain at least 4 characters",
                 Toast.LENGTH_SHORT
@@ -72,13 +72,19 @@ class RegisterFragment : Fragment() {
             return false
         } else if (register_password.text.length > 20) {
             Toast.makeText(
-                context, "password must be no more than 20 characters",
+                context, "Password must be no more than 20 characters",
+                Toast.LENGTH_SHORT
+            ).show()
+            return false
+        } else if (Preferances.getKey(requireContext(), register_email.text.toString())) {
+            Toast.makeText(
+                context, "Email already created",
                 Toast.LENGTH_SHORT
             ).show()
             return false
         } else {
             Toast.makeText(
-                context, "email is not valid",
+                context, "Email is not valid or already created",
                 Toast.LENGTH_SHORT
             ).show()
             return false

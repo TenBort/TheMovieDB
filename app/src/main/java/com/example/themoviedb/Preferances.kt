@@ -16,7 +16,20 @@ object Preferances {
             getPreferences(
                 context
             )
-        prefs.edit().putString(login, "$login $password").apply()
+        prefs.edit().putString(login,"$login $password").apply()
+    }
+
+    fun getKey(context: Context, login: String): Boolean {
+        val prefs =
+            getPreferences(
+                context
+            )
+        prefs.all.forEach {
+            if (it.key == login) {
+                return false
+            }
+        }
+        return true
     }
 
     fun getLogin(context: Context, login: String, password: String): Boolean {
@@ -25,23 +38,25 @@ object Preferances {
                 context
             )
         prefs.all.forEach {
-            if (it.key == login) {
-                if (it.value.toString().startsWith(login) && it.value.toString().contains(password))
-                    return true
+            if (it.key == login ) {
+                if(it.value.toString().startsWith(login) && it.value.toString().contains(password))
+                return true
             }
         }
         return false
     }
-    fun setUser(context: Context, login: String){
+
+    fun setUser(context: Context, login: String) {
         val prefs = getPreferences(context)
-        prefs.edit().putString(KEY,login).apply()
+        prefs.edit().putString(KEY, login).apply()
     }
+
     fun getUser(context: Context): String? {
         val prefs =
             getPreferences(
                 context
             )
-       return prefs.getString(KEY,"")
+        return prefs.getString(KEY, "")
 
     }
 }
